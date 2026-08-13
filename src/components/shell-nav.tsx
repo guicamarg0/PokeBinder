@@ -6,6 +6,7 @@ const links = [
   ["Catálogo", "/catalogo"],
   ["Fichários", "/ficharios"],
   ["Pulls", "/pulls"]
+  , ["Amigos", "/amigos"]
 ] as const;
 
 export function ShellNav() {
