@@ -3,6 +3,7 @@ import Link from "next/link";
 const links = [
   ["Início", "/"],
   ["Coleção", "/colecao"],
+  ["Catálogo", "/catalogo"],
   ["Fichários", "/ficharios"],
   ["Pulls", "/pulls"]
 ] as const;
