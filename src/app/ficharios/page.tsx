@@ -1,0 +1,1 @@
+export default function BindersPage() { return <section><h1 className="text-2xl font-black">Meus fichários</h1><p className="mt-2 text-sm text-slate-500">Organize sua coleção em páginas 3x3.</p><div className="mt-6 rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">Nenhum fichário criado ainda.</div></section>; }
