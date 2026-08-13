@@ -135,6 +135,26 @@ create table public.notifications (
   created_at timestamptz not null default now()
 );
 
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  insert into public.profiles (id, username, display_name)
+  values (
+    new.id,
+    lower(coalesce(new.raw_user_meta_data ->> 'username', 'user_' || left(new.id::text, 8))),
+    coalesce(new.raw_user_meta_data ->> 'display_name', 'Usuário')
+  );
+  return new;
+end;
+$$;
+
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();
+
 alter table public.profiles enable row level security;
 alter table public.card_catalog enable row level security;
 alter table public.collection_entries enable row level security;
@@ -163,7 +183,7 @@ create policy "owners manage binder pages" on public.binder_pages for all to aut
 create policy "visible binder slots" on public.binder_slots for select to anon, authenticated using (exists (select 1 from public.binder_pages p join public.binders b on b.id = p.binder_id where p.id = page_id and (b.is_public or b.owner_id = auth.uid() or exists (select 1 from public.binder_members m where m.binder_id = b.id and m.user_id = auth.uid()))));
 create policy "owners manage binder slots" on public.binder_slots for all to authenticated using (exists (select 1 from public.binder_pages p join public.binders b on b.id = p.binder_id where p.id = page_id and b.owner_id = auth.uid())) with check (exists (select 1 from public.binder_pages p join public.binders b on b.id = p.binder_id where p.id = page_id and b.owner_id = auth.uid()));
 create policy "visible binder placements" on public.binder_placements for select to anon, authenticated using (exists (select 1 from public.binder_slots s join public.binder_pages p on p.id = s.page_id join public.binders b on b.id = p.binder_id where s.id = slot_id and (b.is_public or b.owner_id = auth.uid() or exists (select 1 from public.binder_members m where m.binder_id = b.id and m.user_id = auth.uid()))));
-create policy "owners manage binder placements" on public.binder_placements for all to authenticated using (exists (select 1 from public.binder_slots s join public.binder_pages p on p.id = s.page_id join public.binders b on b.id = p.binder_id where s.id = slot_id and b.owner_id = auth.uid()) and exists (select 1 from public.collection_entries c where c.id = collection_entry_id and c.owner_id = auth.uid())) with check (exists (select 1 from public.binder_slots s join public.binder_pages p on p.id = s.page_id join public.binders b on b.id = p.binder_id where s.id = slot_id and b.owner_id = auth.uid()) and exists (select 1 from public.collection_entries c where c.id = collection_entry_id and c.owner_id = auth.uid()));
+create policy "members manage their binder placements" on public.binder_placements for all to authenticated using (exists (select 1 from public.binder_slots s join public.binder_pages p on p.id = s.page_id join public.binders b on b.id = p.binder_id where s.id = slot_id and (b.owner_id = auth.uid() or exists (select 1 from public.binder_members m where m.binder_id = b.id and m.user_id = auth.uid()))) and exists (select 1 from public.collection_entries c where c.id = collection_entry_id and c.owner_id = auth.uid())) with check (exists (select 1 from public.binder_slots s join public.binder_pages p on p.id = s.page_id join public.binders b on b.id = p.binder_id where s.id = slot_id and (b.owner_id = auth.uid() or exists (select 1 from public.binder_members m where m.binder_id = b.id and m.user_id = auth.uid()))) and exists (select 1 from public.collection_entries c where c.id = collection_entry_id and c.owner_id = auth.uid()));
 create policy "owners manage sellers" on public.sellers for all to authenticated using (owner_id = auth.uid()) with check (owner_id = auth.uid());
 create policy "owners manage pulls" on public.pulls for all to authenticated using (owner_id = auth.uid()) with check (owner_id = auth.uid());
 create policy "owners manage pull items" on public.pull_items for all to authenticated using (exists (select 1 from public.pulls p where p.id = pull_id and p.owner_id = auth.uid())) with check (exists (select 1 from public.pulls p where p.id = pull_id and p.owner_id = auth.uid()));
