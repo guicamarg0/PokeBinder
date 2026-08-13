@@ -135,6 +135,11 @@ create table public.notifications (
   created_at timestamptz not null default now()
 );
 
+grant usage on schema public to anon, authenticated;
+grant select on public.card_catalog to anon, authenticated;
+grant select, insert, update, delete on public.profiles, public.collection_entries, public.binders, public.binder_members, public.binder_pages, public.binder_slots, public.binder_placements, public.sellers, public.pulls, public.pull_items, public.friendships, public.notifications to authenticated;
+grant insert on public.card_catalog to authenticated;
+
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
