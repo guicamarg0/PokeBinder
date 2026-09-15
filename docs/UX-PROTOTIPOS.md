@@ -15,6 +15,8 @@
 - `public/prototypes/home-dashboard.png`: dashboard com resumo da coleção, fichários, Pulls e amigos.
 - `public/prototypes/collection.png`: coleção em grade, busca, filtros e ação de adicionar carta.
 - `public/prototypes/binder-3x3.png`: página de fichário com grade 3x3, espaços vazios e navegação de páginas.
+- `public/prototypes/pulls.png`: quadro de Pulls agrupado por vendedor, status, valores e frete.
+- `public/prototypes/shared-binder.png`: fichário compartilhado com membros, proprietários das cartas e ações de colaboração.
 
 ## Decisões de UX representadas
 
