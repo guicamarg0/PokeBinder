@@ -18,6 +18,16 @@
 - `public/prototypes/pulls.png`: quadro de Pulls agrupado por vendedor, status, valores e frete.
 - `public/prototypes/shared-binder.png`: fichário compartilhado com membros, proprietários das cartas e ações de colaboração.
 
+## Protótipos de telas e fluxos v2
+
+- `public/prototypes/home-v2.png`: tela inicial com resumo, acessos rápidos e atividade recente.
+- `public/prototypes/binders-list-v2.png`: cadastro e listagem de fichários.
+- `public/prototypes/binder-detail-v2.png`: visualização do fichário 3x3.
+- `public/prototypes/binder-create-modal-v2.png`: modal de cadastro de fichário.
+- `public/prototypes/trades-v2.png`: exploração de ofertas de troca.
+- `public/prototypes/wishlist-offer-modal-v2.png`: lista de desejos e modal de criação de oferta.
+- `public/prototypes/profile-friend-modal-v2.png`: perfil, amigos e modal de adicionar amigo.
+
 ## Decisões de UX representadas
 
 - A Coleção é o centro da experiência.
