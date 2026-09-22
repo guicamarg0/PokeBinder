@@ -27,6 +27,7 @@
 - `public/prototypes/trades-v2.png`: exploração de ofertas de troca.
 - `public/prototypes/wishlist-offer-modal-v2.png`: lista de desejos e modal de criação de oferta.
 - `public/prototypes/profile-friend-modal-v2.png`: perfil, amigos e modal de adicionar amigo.
+- `public/prototypes/binder-add-card-modal-v2.png`: modal para escolher carta, quantidade, página e posição no fichário.
 
 ## Decisões de UX representadas
 
