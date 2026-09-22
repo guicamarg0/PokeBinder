@@ -1,0 +1,80 @@
+<html>
+<head>
+  <meta http-equiv="x-ua-compatible" content="IE=9" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>PokeBinder — Primeiro fichário</title>
+  <HTA:APPLICATION ID="PokeBinderFirstBinder" APPLICATIONNAME="PokeBinder" BORDER="thin" CAPTION="yes" MAXIMIZEBUTTON="yes" MINIMIZEBUTTON="yes" SCROLL="no" SINGLEINSTANCE="yes" SYSMENU="yes" WINDOWSTATE="normal" />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; background: #fbfbfc; color: #171b25; font-family: Arial, sans-serif; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .app { min-height: 100%; display: flex; flex-direction: column; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 22px 34px; border-bottom: 1px solid #ececef; background: white; }
+    .brand { color: #151821; font-size: 26px; font-weight: 900; letter-spacing: -1.5px; }
+    .brand span { color: #d92735; }
+    .tagline { margin-top: 4px; color: #858b96; font-size: 12px; }
+    .user { display: flex; align-items: center; gap: 10px; color: #626a76; font-size: 13px; font-weight: 800; }
+    .avatar { display: flex; width: 38px; height: 38px; align-items: center; justify-content: center; border-radius: 50%; background: #ffe4e6; color: #d92735; font-weight: 900; }
+    .main { display: flex; flex: 1; align-items: center; justify-content: center; padding: 48px 24px 80px; }
+    .empty { width: min(820px, 100%); text-align: center; }
+    .pokeball { position: relative; width: 158px; height: 158px; margin: 0 auto 25px; overflow: hidden; border: 9px solid #252a34; border-radius: 50%; background: linear-gradient(#e44750 0 47%, #252a34 47% 54%, #fff 54%); box-shadow: 0 16px 35px rgba(217,39,53,.18); }
+    .pokeball:after { content: ""; position: absolute; left: 50%; top: 50%; width: 47px; height: 47px; transform: translate(-50%, -50%); border: 9px solid #252a34; border-radius: 50%; background: white; }
+    .eyebrow { color: #d92735; font-size: 14px; font-weight: 900; }
+    h1 { margin: 9px 0 12px; font-size: 42px; letter-spacing: -2px; }
+    .intro { max-width: 530px; margin: 0 auto; color: #7c8490; font-size: 16px; line-height: 1.6; }
+    .start-button { margin-top: 28px; border: 0; border-radius: 15px; background: #d92735; color: white; padding: 16px 28px; font-size: 16px; font-weight: 900; box-shadow: 0 10px 24px rgba(217,39,53,.18); }
+    .start-button:hover { background: #bd1f2c; }
+    .benefits { display: flex; justify-content: center; gap: 12px; margin-top: 34px; }
+    .benefit { min-width: 170px; padding: 14px; border: 1px solid #f0f1f3; border-radius: 15px; background: white; text-align: left; box-shadow: 0 5px 16px rgba(15,23,42,.04); }
+    .benefit b { display: block; font-size: 12px; }
+    .benefit small { display: block; margin-top: 5px; color: #858b96; font-size: 11px; line-height: 1.4; }
+    .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 14px; border-top: 1px solid #ececef; background: white; color: #858b96; text-align: center; font-size: 11px; }
+    .modal-bg { position: fixed; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(17,20,29,.48); }
+    .modal-bg.hidden { display: none; }
+    .modal { display: grid; width: min(900px, 100%); max-height: 90vh; overflow: auto; grid-template-columns: 1fr 1fr; gap: 28px; border-radius: 25px; background: white; padding: 30px; box-shadow: 0 24px 70px rgba(15,23,42,.3); }
+    .modal-head { display: flex; align-items: flex-start; justify-content: space-between; grid-column: 1 / -1; }
+    .modal-head h2 { margin: 0; font-size: 27px; }
+    .modal-head p { margin-top: 6px; color: #818793; font-size: 13px; }
+    .close { width: 36px; height: 36px; border: 0; border-radius: 50%; background: #f1f2f4; color: #66707b; font-size: 22px; }
+    .form-row { margin-top: 16px; }
+    label { display: block; margin-bottom: 7px; color: #252a34; font-size: 13px; font-weight: 900; }
+    input, select, textarea { width: 100%; border: 1px solid #e2e5e9; border-radius: 12px; background: #fafbfc; padding: 13px; outline: none; }
+    textarea { height: 75px; resize: none; }
+    .visibility { display: flex; gap: 10px; }
+    .visibility button { flex: 1; border: 1px solid #e2e5e9; border-radius: 12px; background: white; padding: 13px; color: #67707d; text-align: left; }
+    .visibility button.selected { border-color: #d92735; background: #fff0f1; color: #c92130; }
+    .submit { width: 100%; margin-top: 20px; border: 0; border-radius: 13px; background: #d92735; color: white; padding: 14px; font-weight: 900; }
+    .preview { min-height: 310px; border-radius: 20px; background: linear-gradient(135deg, #d92735, #f1a4aa); padding: 23px; color: white; }
+    .preview-label { color: #ffe5e7; font-size: 11px; font-weight: 800; }
+    .preview h3 { margin: 5px 0 19px; font-size: 25px; }
+    .preview-book { position: relative; display: flex; height: 170px; align-items: center; justify-content: center; border: 5px solid rgba(255,255,255,.75); border-radius: 15px; background: linear-gradient(135deg, #ef5350, #c6202e); box-shadow: 0 14px 22px rgba(90,9,18,.2); }
+    .preview-book:after { content: ""; position: absolute; left: 50%; top: 50%; width: 48px; height: 48px; transform: translate(-50%, -50%); border: 5px solid white; border-radius: 50%; background: linear-gradient(#ef5350 0 45%, #252a34 45% 55%, #fff 55%); }
+    .preview-book:before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 5px; background: white; opacity: .8; }
+    .preview-footer { display: flex; justify-content: space-between; margin-top: 16px; color: #fff0f1; font-size: 12px; }
+    .success { position: fixed; right: 22px; bottom: 75px; z-index: 20; border-radius: 13px; background: #16794c; color: white; padding: 14px 18px; font-size: 13px; font-weight: 800; box-shadow: 0 10px 22px rgba(22,121,76,.2); }
+    .success.hidden { display: none; }
+    @media (max-width: 700px) { .topbar { padding: 17px 20px; } .main { padding: 30px 18px 75px; } h1 { font-size: 32px; } .benefits { flex-direction: column; } .benefit { text-align: center; } .modal { grid-template-columns: 1fr; padding: 22px; } .preview { order: -1; min-height: 235px; } .preview-book { height: 130px; } }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar"><div><div class="brand">Poke<span>Binder</span></div><div class="tagline">Sua coleção, sempre com você.</div></div><div class="user"><span>Guilherme</span><span class="avatar">G</span></div></header>
+    <main class="main">
+      <section class="empty"><div class="pokeball"></div><p class="eyebrow">Sua coleção começa aqui</p><h1>Crie seu primeiro fichário</h1><p class="intro">Organize suas cartas em páginas digitais, escolha sua capa e comece a montar uma coleção do seu jeito.</p><button class="start-button" onclick="openBinderModal()">＋ Criar meu primeiro fichário</button><div class="benefits"><div class="benefit"><b>▣ Organização visual</b><small>Páginas 3×3 para deixar tudo no lugar.</small></div><div class="benefit"><b>↔ Espaços flexíveis</b><small>Mova cartas e escolha onde cada uma fica.</small></div><div class="benefit"><b>♧ Compartilhe</b><small>Mostre seu fichário para seus amigos.</small></div></div></section>
+    </main>
+    <div class="footer">Protótipo de cadastro inicial · PokeBinder</div>
+  </div>
+
+  <div id="modal-bg" class="modal-bg hidden" onclick="closeBinderModal(event)"><div class="modal" onclick="event.cancelBubble=true"><div class="modal-head"><div><h2>Novo fichário</h2><p>Configure seu espaço para começar a organizar cartas.</p></div><button class="close" onclick="closeBinderModal()">×</button></div><div><div class="form-row"><label for="name">Nome do fichário</label><input id="name" value="Minha primeira coleção" onkeyup="updatePreview()" /></div><div class="form-row"><label for="pages">Quantidade de páginas</label><input id="pages" type="number" min="1" max="200" value="4" onkeyup="updatePreview()" /></div><div class="form-row"><label for="description">Descrição <span style="color:#858b96;font-weight:normal">(opcional)</span></label><textarea id="description" placeholder="Ex.: minhas cartas favoritas"></textarea></div><div class="form-row"><label>Visibilidade</label><div class="visibility"><button id="private" class="selected" onclick="chooseVisibility('private')">🔒 Privado<br /><small>Apenas você pode ver</small></button><button id="shared" onclick="chooseVisibility('shared')">↗ Compartilhado<br /><small>Qualquer pessoa com o link</small></button></div></div><button class="submit" onclick="createBinder()">＋ Criar fichário</button></div><div class="preview"><p class="preview-label">PRÉ-VISUALIZAÇÃO</p><h3 id="preview-name">Minha primeira coleção</h3><div class="preview-book"></div><div class="preview-footer"><span>3 × 3</span><span><span id="preview-pages">4</span> páginas</span></div></div></div></div>
+  <div id="success" class="success hidden">✓ Fichário criado! Agora adicione sua primeira carta.</div>
+
+  <script>
+    function openBinderModal() { document.getElementById('modal-bg').className = 'modal-bg'; document.getElementById('name').focus(); }
+    function closeBinderModal(event) { if (!event || event.target.id === 'modal-bg') document.getElementById('modal-bg').className = 'modal-bg hidden'; }
+    function updatePreview() { document.getElementById('preview-name').innerHTML = document.getElementById('name').value || 'Meu fichário'; document.getElementById('preview-pages').innerHTML = document.getElementById('pages').value || '1'; }
+    function chooseVisibility(value) { document.getElementById('private').className = value === 'private' ? 'selected' : ''; document.getElementById('shared').className = value === 'shared' ? 'selected' : ''; }
+    function createBinder() { var name = document.getElementById('name').value || 'Meu fichário'; document.getElementById('modal-bg').className = 'modal-bg hidden'; document.getElementById('success').innerHTML = '✓ ' + name + ' criado! Agora adicione sua primeira carta.'; document.getElementById('success').className = 'success'; window.setTimeout(function () { document.getElementById('success').className = 'success hidden'; }, 4500); }
+  </script>
+</body>
+</html>

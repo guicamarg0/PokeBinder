@@ -19,3 +19,7 @@ Dê duplo clique em `pokebinder.hta`. O arquivo abre com o `mshta.exe`, sem prec
 - Modais de oferta, amizade e edição de perfil.
 
 Os dados são demonstrativos e não são persistidos. A implementação real continuará no projeto Next.js e Supabase.
+
+## Fluxo inicial isolado
+
+Para apresentar apenas o onboarding de criação do primeiro fichário, abra `cadastrar-fichario.hta`.
